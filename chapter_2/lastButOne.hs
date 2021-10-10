@@ -1,0 +1,4 @@
+
+lastButOne  :: [a] -> a
+
+

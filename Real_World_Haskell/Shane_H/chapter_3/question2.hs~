@@ -1,3 +1,0 @@
-data Tree a = Node a (Tree a) (Treea)
-            | Empty
-  seriving(Show)

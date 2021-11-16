@@ -1,26 +1,18 @@
 --Consider three two-dimensional points a, b and c. If we look at the angle formed by the line segment from a to b and the line segment  from b to c, it turns left, turns right  or forms a straight line. Define a Direction data type that lets you represent these possibilities.
+module Geometry where
 
-data Point = Point {
-  pX :: Int,
-  PY :: Int
-  } deriving (Show)
+data Point2D = Point2D {x, y :: Double} deriving (Show, Ord, Eq)
 
-data Direction = LeftTurn
-               | StraightOn
-               | Right Turn
-  deriving (Show, Eq)
+data Direction = Left | Right | Straight deriving (Show, Eq)
 
-calculateDirection :: Post -> Point -> -> Direction
-calculateDirection a b c
-  | crossProductDirection > 0 = LeftTurn
-  | crossProductDirection < 0 = RightTurn
-  | otherwise                 = StraightOn
+turn :: Point2D -> Point2D -> Point2D -> Direction
+turn p1 p2 p3
+  | determinant > 0 = Geometry.Left
+  | determinant < 0 = Geometry.Right
+  | otherwise = Straight
   where
-    crossProductDirection = ((x2 - x1) * (y3 - y1)) - ((y2 - y1) * (x3 -x1))
-      where
-        x1     = pX a
-        x2     = pX b
-        x3     = pX c
-        y1     = pY a
-        y2     = pY b
-        y3     = pY c
+    determinant = (x p2 - x p1) * (y p3 - y p1) - (y p2 - y p1) * (x p3 - x p1)
+
+turns :: [Point2D] -> [Direction]
+turns (p1 : p2 : p3 : ps) = turn p1 p2 p3 : turns (p2 : p3 : ps)
+turns _ = []

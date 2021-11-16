@@ -1,11 +1,7 @@
 --Using the binary tree type  that we defined earlier in this chapter, write a fuction that will determine the height of the tree. The height is the largest number of hops from the root of an Empty.
 
-treeHeight :: Tree a => Int
-treeHeight Empty   = 0
-treeHeight (Node this left right) = 1 + longestRemianingPath
-  where
-    longestRemainingPath    = max leftHeight rightHeight
-    leftHeight              = treeHeight left
-    rightHeight             = treeHeight right
+data Tree a = Node a (Tree a) (Tree a) | Empty deriving (Show)
 
-    
+height :: Tree a -> Int
+height Empty = 0
+height (Node _ l r) = 1 + max (height l) (height r)

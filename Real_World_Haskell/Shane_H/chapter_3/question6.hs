@@ -1,4 +1,5 @@
-Turn a list into a palindrome i.e navan
+-- Turn a list into a palindrome i.e navan
+-- this one was quite easy
 
-Palindrome :: [a] -> [a]
-Palindrome l = l ++ reverse l
+palindrome :: [a] -> [a]
+palindrome xs = xs ++ reverse xs

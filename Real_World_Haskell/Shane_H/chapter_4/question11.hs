@@ -1,0 +1,1 @@
+--Write your own definition of takeWhile function, first using explicit recursion and then foldr

@@ -1,0 +1,1 @@
+-- use ghci to load the Data.List module and figure out what groupBy does, then write yout own implementation using a fold

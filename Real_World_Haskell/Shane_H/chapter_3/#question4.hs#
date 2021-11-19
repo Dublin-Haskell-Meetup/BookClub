@@ -1,4 +1,0 @@
--- Add a type signature for your function to your dource file. To test it, load the source file into ghci ghci
-
-ThisLength :: (Num i) => [a] -> i
-

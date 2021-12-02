@@ -1,7 +1,7 @@
 module TestCh03 ( ch03 ) where
 
 import           Data.List
-import           Data.List.NonEmpty (NonEmpty)
+import           Data.List.NonEmpty (NonEmpty(..))
 import qualified Data.List.NonEmpty as NE
 import           Hedgehog as HH
 import qualified Hedgehog.Gen as Gen
@@ -59,6 +59,9 @@ intersperseProp = property $ do
   xs <- forAll $ genlist $ genlist Gen.alpha
   Ch03.intersperse ',' xs === intercalate "," xs
 
+pts :: RealFloat a => [(a, a)] -> [(Point a)]
+pts = fmap Point
+
 ch03 :: TestTree
 ch03 = testGroup "Ch03"
   [ testGroup "len"
@@ -81,5 +84,21 @@ ch03 = testGroup "Ch03"
     ]
   , testGroup "intersperse"
     [ testProperty "intersperse == Prelude.intersperse" intersperseProp
+    ]
+  , testGroup "convex hull"
+    [ testCase "convex hull [(0,0)]" $
+      convexHull (pts [(0,0)]) @?= pts [(0,0)]
+    , testCase "convex hull 0" $
+      convexHull (pts [(0,0), (1, 0)])
+              @?= pts [(1, 0), (0, 0)]
+    , testCase "convex hull 1" $
+      convexHull (pts [(0,0), (1, 0), (1, 1)])
+              @?= pts [(1, 1), (1, 0), (0, 0)]
+    , testCase "convex hull 2" $
+      sort (convexHull (pts [(0,0), (1, 0), (1, 1), (0, 1)]))
+              @?= pts (sort [(1, 1), (1, 0), (0, 0), (0, 1)])
+    , testCase "convex hull 3" $
+      sort (convexHull (pts [(0,0), (1, 0), (1, 1), (0.5, 0.5), (0, 1)]))
+              @?= pts (sort [(1, 1), (1, 0), (0, 0), (0, 1)])
     ]
   ]
